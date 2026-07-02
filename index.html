@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>[NOMBRE DEL NEGOCIO]</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --verde: #2d4a3a;
+    --verde-claro: #e3ecda;
+    --crema: #f5f0e6;
+    --crema-oscuro: #ece3d1;
+    --terracota: #c1673a;
+    --negro: #14201a;
+    --gris-texto: #6f7a74;
+    --serif: 'Playfair Display', serif;
+    --sans: 'Poppins', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: var(--crema);
+    color: var(--negro);
+    font-family: var(--sans);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  img { max-width: 100%; display: block; }
+
+  a { text-decoration: none; color: inherit; }
+
+  ul { list-style: none; }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  .eyebrow {
+    display: inline-block;
+    color: var(--terracota);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 14px 30px;
+    border-radius: 999px;
+    font-family: var(--sans);
+    font-weight: 500;
+    font-size: 15px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+    white-space: nowrap;
+  }
+
+  .btn:hover { transform: translateY(-2px); }
+
+  .btn-solid {
+    background-color: var(--crema);
+    color: var(--verde);
+  }
+
+  .btn-outline {
+    background-color: transparent;
+    color: var(--crema);
+    border-color: rgba(245, 240, 230, 0.4);
+  }
+
+  /* HEADER */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: var(--crema);
+    border-bottom: 1px solid rgba(45, 74, 58, 0.1);
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 24px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .logo-block .logo-name {
+    font-family: var(--serif);
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--verde);
+    line-height: 1.1;
+  }
+
+  .logo-block .logo-tagline {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 12px;
+    color: var(--gris-texto);
+  }
+
+  .menu-toggle {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  .menu-toggle span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background-color: var(--verde);
+    transition: all 0.3s ease;
+  }
+
+  .menu-toggle.active span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+  .menu-toggle.active span:nth-child(2) {
+    opacity: 0;
+  }
+  .menu-toggle.active span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  .nav-menu {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 78%;
+    max-width: 340px;
+    height: 100vh;
+    background-color: var(--verde);
+    z-index: 1100;
+    padding: 32px;
+    transition: right 0.35s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .nav-menu.open { right: 0; }
+
+  .nav-menu-close {
+    align-self: flex-end;
+    background: none;
+    border: none;
+    color: var(--crema);
+    font-size: 28px;
+    cursor: pointer;
+    margin-bottom: 24px;
+  }
+
+  .nav-menu a {
+    color: var(--crema);
+    font-family: var(--serif);
+    font-size: 22px;
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(245, 240, 230, 0.15);
+  }
+
+  .nav-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(20, 32, 26, 0.5);
+    z-index: 1050;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s ease;
+  }
+
+  .nav-overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* HERO */
+  .hero {
+    background-color: var(--verde);
+    color: var(--crema);
+    padding: 56px 0 0;
+    text-align: center;
+  }
+
+  .badge {
+    display: inline-block;
+    border: 1px solid rgba(245, 240, 230, 0.35);
+    border-radius: 999px;
+    padding: 8px 20px;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+
+  .hero h1 {
+    font-family: var(--serif);
+    font-size: 42px;
+    line-height: 1.2;
+    max-width: 640px;
+    margin: 0 auto 20px;
+    font-weight: 600;
+  }
+
+  .hero h1 .accent {
+    color: #e0a978;
+    font-style: italic;
+  }
+
+  .hero p {
+    color: #d3dbd4;
+    max-width: 480px;
+    margin: 0 auto 32px;
+    font-size: 16px;
+  }
+
+  .hero-buttons {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 48px;
+  }
+
+  .hero-image {
+    width: 100%;
+    height: 360px;
+    object-fit: cover;
+  }
+
+  .hero-strip {
+    background-color: var(--terracota);
+    color: var(--crema);
+    padding: 14px 0;
+    text-align: center;
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 15px;
+    letter-spacing: 0.5px;
+  }
+
+  /* SECTION GENERAL */
+  section {
+    padding: 80px 0;
+  }
+
+  .section-title {
+    font-family: var(--serif);
+    font-size: 34px;
+    font-weight: 600;
+    line-height: 1.3;
+    margin-bottom: 24px;
+  }
+
+  .section-title .highlight {
+    color: var(--verde);
+    font-style: italic;
+  }
+
+  /* HISTORIA */
+  .historia-text {
+    color: var(--gris-texto);
+    font-size: 15px;
+    margin-bottom: 18px;
+    max-width: 620px;
+  }
+
+  .historia-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 32px 0 40px;
+  }
+
+  .pill-badge {
+    background-color: var(--verde-claro);
+    color: var(--verde);
+    padding: 10px 18px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  .gallery-grid img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 12px;
+  }
+
+  /* MENU */
+  .menu-section {
+    background-color: var(--crema-oscuro);
+  }
+
+  .menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 32px;
+    margin-top: 40px;
+  }
+
+  .menu-card img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 16px;
+    margin-bottom: 16px;
+  }
+
+  .menu-card .categoria {
+    color: var(--terracota);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .menu-card h3 {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+  .menu-card p {
+    color: var(--gris-texto);
+    font-size: 14px;
+  }
+
+  /* MOMENTOS */
+  .momentos {
+    background-color: var(--verde);
+    color: var(--crema);
+    text-align: center;
+  }
+
+  .momentos h2 {
+    font-family: var(--serif);
+    font-size: 28px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 40px;
+  }
+
+  .momentos-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .momentos-grid img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 12px;
+  }
+
+  .momentos-hint {
+    margin-top: 28px;
+    font-style: italic;
+    color: #cfd8d0;
+    font-size: 14px;
+  }
+
+  /* HORARIO */
+  .horario-header {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+
+  .horario-header h2 {
+    font-family: var(--serif);
+    font-size: 34px;
+  }
+
+  .horario-header .subtitulo {
+    font-family: var(--serif);
+    font-style: italic;
+    color: var(--gris-texto);
+    margin-bottom: 20px;
+  }
+
+  .estado-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--verde-claro);
+    color: var(--verde);
+    padding: 8px 18px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .horario-lista {
+    max-width: 480px;
+    margin: 40px auto 0;
+  }
+
+  .horario-fila {
+    display: flex;
+    justify-content: space-between;
+    padding: 16px 12px;
+    border-bottom: 1px solid rgba(45, 74, 58, 0.12);
+    font-size: 15px;
+  }
+
+  .horario-fila.hoy {
+    background-color: var(--crema-oscuro);
+    border-radius: 8px;
+    font-weight: 600;
+  }
+
+  .horario-fila .dia { color: var(--negro); }
+  .horario-fila .hora { color: var(--gris-texto); }
+  .horario-fila.hoy .hora { color: var(--verde); }
+
+  /* ENCUENTRANOS */
+  .encuentranos-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+
+  .encuentranos-icon {
+    width: 52px;
+    height: 52px;
+    background-color: var(--crema-oscuro);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+
+  .encuentranos-label {
+    color: var(--terracota);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .encuentranos-value {
+    font-size: 16px;
+    font-weight: 500;
+  }
+
+  .social-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    max-width: 340px;
+    margin-top: 32px;
+  }
+
+  .social-btn {
+    padding: 16px 24px;
+    border-radius: 999px;
+    color: #fff;
+    font-weight: 600;
+    text-align: center;
+    font-size: 15px;
+  }
+
+  .social-btn.instagram {
+    background: linear-gradient(45deg, #f58529, #dd2a7b, #8134af, #515bd4);
+  }
+
+  .social-btn.facebook {
+    background-color: #1877f2;
+  }
+
+  .social-btn.maps {
+    background-color: var(--verde);
+  }
+
+  /* FOOTER */
+  footer {
+    background-color: var(--negro);
+    color: var(--crema);
+    padding: 64px 0 32px;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 40px;
+  }
+
+  .footer-logo {
+    font-family: var(--serif);
+    font-size: 26px;
+    margin-bottom: 4px;
+  }
+
+  .footer-tagline {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 13px;
+    color: #a9b2ac;
+    margin-bottom: 16px;
+  }
+
+  .footer-desc {
+    color: #a9b2ac;
+    font-size: 14px;
+    margin-bottom: 20px;
+    max-width: 320px;
+  }
+
+  .footer-social {
+    display: flex;
+    gap: 10px;
+  }
+
+  .footer-social a {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background-color: rgba(245, 240, 230, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+  }
+
+  .footer-col h4 {
+    font-size: 13px;
+    letter-spacing: 1.5px;
+    color: var(--terracota);
+    margin-bottom: 18px;
+  }
+
+  .footer-col li {
+    color: #cdd4cf;
+    font-size: 14px;
+    margin-bottom: 12px;
+  }
+
+  .footer-bottom {
+    border-top: 1px solid rgba(245, 240, 230, 0.1);
+    padding-top: 24px;
+    text-align: center;
+    font-size: 13px;
+    color: #7d867f;
+  }
+
+  /* FLOATING CALL BUTTON */
+  .call-float {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 900;
+    background-color: var(--verde);
+    color: var(--crema);
+    padding: 14px 22px;
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  }
+
+  /* RESPONSIVE */
+  @media (min-width: 768px) {
+    .hero h1 { font-size: 56px; }
+    .hero-image { height: 480px; }
+    .section-title { font-size: 44px; }
+  }
+
+  @media (max-width: 640px) {
+    .footer-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .momentos-grid {
+      grid-template-columns: repeat(2, 1fr);
+      overflow-x: auto;
+      display: flex;
+      scroll-snap-type: x mandatory;
+    }
+
+    .momentos-grid img {
+      min-width: 70%;
+      scroll-snap-align: start;
+    }
+
+    .gallery-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .gallery-grid img {
+      height: 100px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo-block">
+      <div class="logo-name">[NOMBRE DEL NEGOCIO]</div>
+      <div class="logo-tagline">by [nombre]</div>
+    </div>
+    <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+</header>
+
+<div class="nav-overlay" id="navOverlay"></div>
+<nav class="nav-menu" id="navMenu">
+  <button class="nav-menu-close" id="navClose" aria-label="Cerrar menú">&times;</button>
+  <a href="#historia">Nuestra Historia</a>
+  <a href="#menu">Menú</a>
+  <a href="#momentos">Momentos</a>
+  <a href="#horario">Horario</a>
+  <a href="#encuentranos">Encuéntranos</a>
+</nav>
+
+<section class="hero">
+  <div class="container">
+    <span class="badge">[CIUDAD] · DESDE EL CORAZÓN</span>
+    <h1>Un rincón <span class="accent">lleno de</span> sabor.</h1>
+    <p>Café de especialidad, desayunos caseros y postres artesanales en un ambiente cálido, pensado para disfrutar despacio.</p>
+    <div class="hero-buttons">
+      <a href="#menu" class="btn btn-solid">Ver Menú</a>
+      <a href="#horario" class="btn btn-outline">Horarios &amp; Ubicación</a>
+    </div>
+  </div>
+  <img src="img/hero-platillo-principal.jpg" alt="Platillo destacado" class="hero-image">
+  <div class="hero-strip">Desayunos · Café de Especialidad · Postres Artesanales</div>
+</section>
+
+<section id="historia">
+  <div class="container">
+    <span class="eyebrow">NUESTRA HISTORIA</span>
+    <h2 class="section-title">Una idea que nació <span class="highlight">de la cocina de casa</span></h2>
+    <p class="historia-text">Todo comenzó con la idea de compartir recetas familiares y café de calidad en un espacio donde el tiempo pareciera detenerse un poco. Cada rincón fue pensado para que te sientas como en casa.</p>
+    <p class="historia-text">Hoy seguimos preparando cada platillo con los mismos ingredientes frescos y el mismo cariño del primer día, recibiendo a quienes buscan una pausa en su rutina.</p>
+    <div class="historia-badges">
+      <span class="pill-badge">☕ Café &amp; Té</span>
+      <span class="pill-badge">🍳 Desayunos</span>
+      <span class="pill-badge">🌿 Ambiente Relajado</span>
+      <span class="pill-badge">🏃 Servicio Rápido</span>
+    </div>
+    <div class="gallery-grid">
+      <img src="img/historia-galeria-1.jpg" alt="Interior del local">
+      <img src="img/historia-galeria-2.jpg" alt="Barra de café">
+      <img src="img/historia-galeria-3.jpg" alt="Mesa preparada">
+    </div>
+  </div>
+</section>
+
+<section id="menu" class="menu-section">
+  <div class="container">
+    <span class="eyebrow">LO QUE OFRECEMOS</span>
+    <h2 class="section-title">Un menú para cada <span class="highlight">momento</span></h2>
+    <div class="menu-grid">
+      <div class="menu-card">
+        <img src="img/menu-desayuno-clasico.jpg" alt="Desayuno clásico">
+        <div class="categoria">Desayunos</div>
+        <h3>Desayuno Clásico</h3>
+        <p>Huevos al gusto, pan artesanal y fruta de temporada recién preparados.</p>
+      </div>
+      <div class="menu-card">
+        <img src="img/menu-hotcakes.jpg" alt="Hotcakes con frutos rojos">
+        <div class="categoria">Desayunos</div>
+        <h3>Hotcakes de la Casa</h3>
+        <p>Esponjosos hotcakes bañados en miel, con frutos rojos frescos.</p>
+      </div>
+      <div class="menu-card">
+        <img src="img/menu-plato-fuerte.jpg" alt="Plato fuerte del día">
+        <div class="categoria">Platos Fuertes</div>
+        <h3>Plato del Día</h3>
+        <p>Selección diaria preparada con ingredientes locales de temporada.</p>
+      </div>
+      <div class="menu-card">
+        <img src="img/menu-sandwich.jpg" alt="Sándwich gourmet">
+        <div class="categoria">Para Compartir</div>
+        <h3>Sándwich Gourmet</h3>
+        <p>Pan artesanal, quesos seleccionados y vegetales frescos de la casa.</p>
+      </div>
+      <div class="menu-card">
+        <img src="img/menu-cafe-especialidad.jpg" alt="Café de especialidad">
+        <div class="categoria">Bebidas</div>
+        <h3>Café de Especialidad</h3>
+        <p>Granos seleccionados, tostado artesanal y preparación en barra.</p>
+      </div>
+      <div class="menu-card">
+        <img src="img/menu-postre.jpg" alt="Postre artesanal">
+        <div class="categoria">Postres</div>
+        <h3>Postre Artesanal</h3>
+        <p>Creaciones dulces hechas en casa, ideales para cerrar con broche de oro.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="momentos" class="momentos">
+  <div class="container">
+    <h2>MOMENTOS EN [NEGOCIO]</h2>
+    <div class="momentos-grid">
+      <img src="img/momentos-foto-1.jpg" alt="Momento en el local">
+      <img src="img/momentos-foto-2.jpg" alt="Momento en el local">
+      <img src="img/momentos-foto-3.jpg" alt="Momento en el local">
+      <img src="img/momentos-foto-4.jpg" alt="Momento en el local">
+    </div>
+    <p class="momentos-hint">← Desliza para ver más →</p>
+  </div>
+</section>
+
+<section id="horario">
+  <div class="container">
+    <div class="horario-header">
+      <h2>Horario</h2>
+      <p class="subtitulo">Te esperamos todos los días</p>
+      <span class="estado-badge" id="estadoBadge">● Abierto ahora</span>
+    </div>
+    <div class="horario-lista" id="horarioLista">
+      <div class="horario-fila" data-dia="1">
+        <span class="dia">Lunes</span>
+        <span class="hora">8:00 am – 8:00 pm</span>
+      </div>
+      <div class="horario-fila" data-dia="2">
+        <span class="dia">Martes</span>
+        <span class="hora">8:00 am – 8:00 pm</span>
+      </div>
+      <div class="horario-fila" data-dia="3">
+        <span class="dia">Miércoles</span>
+        <span class="hora">8:00 am – 8:00 pm</span>
+      </div>
+      <div class="horario-fila" data-dia="4">
+        <span class="dia">Jueves</span>
+        <span class="hora">8:00 am – 8:00 pm</span>
+      </div>
+      <div class="horario-fila" data-dia="5">
+        <span class="dia">Viernes</span>
+        <span class="hora">8:00 am – 9:00 pm</span>
+      </div>
+      <div class="horario-fila" data-dia="6">
+        <span class="dia">Sábado</span>
+        <span class="hora">9:00 am – 9:00 pm</span>
+      </div>
+      <div class="horario-fila" data-dia="0">
+        <span class="dia">Domingo</span>
+        <span class="hora">9:00 am – 6:00 pm</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="encuentranos">
+  <div class="container">
+    <h2 class="section-title">Encuéntranos</h2>
+    <div class="encuentranos-item">
+      <div class="encuentranos-icon">📍</div>
+      <div>
+        <div class="encuentranos-label">Dirección</div>
+        <div class="encuentranos-value">[DIRECCIÓN COMPLETA]</div>
+      </div>
+    </div>
+    <div class="encuentranos-item">
+      <div class="encuentranos-icon">📞</div>
+      <div>
+        <div class="encuentranos-label">Teléfono</div>
+        <div class="encuentranos-value">[TELÉFONO]</div>
+      </div>
+    </div>
+    <div class="encuentranos-item">
+      <div class="encuentranos-icon">📷</div>
+      <div>
+        <div class="encuentranos-label">Redes Sociales</div>
+        <div class="encuentranos-value">@[usuario]</div>
+      </div>
+    </div>
+    <div class="social-buttons">
+      <a href="#" class="social-btn instagram" target="_blank" rel="noopener">Seguir en Instagram</a>
+      <a href="#" class="social-btn facebook" target="_blank" rel="noopener">Seguir en Facebook</a>
+      <a href="https://maps.google.com/?q=[DIRECCIÓN COMPLETA]" class="social-btn maps" target="_blank" rel="noopener">Abrir en Google Maps</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">[NOMBRE DEL NEGOCIO]</div>
+        <div class="footer-tagline">by [nombre]</div>
+        <p class="footer-desc">Café de especialidad, desayunos caseros y postres artesanales en un ambiente cálido y acogedor.</p>
+        <div class="footer-social">
+          <a href="#" target="_blank" rel="noopener" aria-label="Instagram">📷</a>
+          <a href="#" target="_blank" rel="noopener" aria-label="Facebook">📘</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>MENÚ</h4>
+        <ul>
+          <li>Desayunos</li>
+          <li>Bebidas Frías &amp; Calientes</li>
+          <li>Postres</li>
+          <li>Ensaladas &amp; Paninis</li>
+          <li>Para Compartir</li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>CONTACTO</h4>
+        <ul>
+          <li>[DIRECCIÓN COMPLETA]</li>
+          <li>[TELÉFONO]</li>
+          <li>Lun – Dom: 8:00 am – 8:00 pm</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2026 [NOMBRE DEL NEGOCIO]. Todos los derechos reservados.
+    </div>
+  </div>
+</footer>
+
+<a href="tel:+520000000000" class="call-float">
+  📞 Llámanos
+</a>
+
+<script>
+  const menuToggle = document.getElementById('menuToggle');
+  const navMenu = document.getElementById('navMenu');
+  const navOverlay = document.getElementById('navOverlay');
+  const navClose = document.getElementById('navClose');
+
+  function openMenu() {
+    navMenu.classList.add('open');
+    navOverlay.classList.add('open');
+    menuToggle.classList.add('active');
+  }
+
+  function closeMenu() {
+    navMenu.classList.remove('open');
+    navOverlay.classList.remove('open');
+    menuToggle.classList.remove('active');
+  }
+
+  menuToggle.addEventListener('click', () => {
+    if (navMenu.classList.contains('open')) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
+  });
+
+  navOverlay.addEventListener('click', closeMenu);
+  navClose.addEventListener('click', closeMenu);
+
+  document.querySelectorAll('.nav-menu a').forEach(link => {
+    link.addEventListener('click', closeMenu);
+  });
+
+  const dias = ['0', '1', '2', '3', '4', '5', '6'];
+  const hoy = new Date().getDay().toString();
+  const filas = document.querySelectorAll('.horario-fila');
+
+  filas.forEach(fila => {
+    if (fila.getAttribute('data-dia') === hoy) {
+      fila.classList.add('hoy');
+    }
+  });
+
+  const horarios = {
+    0: { abre: 9, cierra: 18 },
+    1: { abre: 8, cierra: 20 },
+    2: { abre: 8, cierra: 20 },
+    3: { abre: 8, cierra: 20 },
+    4: { abre: 8, cierra: 20 },
+    5: { abre: 8, cierra: 21 },
+    6: { abre: 9, cierra: 21 }
+  };
+
+  const ahora = new Date();
+  const diaActual = ahora.getDay();
+  const horaActual = ahora.getHours();
+  const estadoBadge = document.getElementById('estadoBadge');
+  const horarioHoy = horarios[diaActual];
+
+  if (horaActual >= horarioHoy.abre && horaActual < horarioHoy.cierra) {
+    estadoBadge.textContent = '● Abierto ahora';
+  } else {
+    estadoBadge.textContent = '● Cerrado ahora';
+  }
+</script>
+
+</body>
+</html>
